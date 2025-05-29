@@ -6,13 +6,13 @@ function App() {
 	const [list, setList] = useState([]);
 	const [error, setError] = useState("");
 
-	let isValueVaild = value.length < 3 ? false : true;
-	const updatedList = [...list, { id: Date.now(), value }];
+	let isValueVaild = value.length < 3;
+
 
 	const onInputButtonClick = () => {
 		let promptValue = prompt("Введите значение", "");
 		if (promptValue.length < 3) {
-			setError();
+			setError('Введенное значение должно содержать минимум 3 символа');
 		} else {
 			setValue(promptValue);
 			setError("");
@@ -20,10 +20,11 @@ function App() {
 	};
 
 	const onAddButtonClick = () => {
-		if (isValueVaild === true) {
+		if (isValueVaild) {
 			list.push(value);
 			setValue("");
 			setError("");
+			const updatedList = [...list, { id: Date.now(), value }];
 			setList(updatedList);
 		}
 	};
@@ -37,13 +38,7 @@ function App() {
 					<output className={styles["current-value"]}>{value}</output>
 					"
 				</p>
-				{error !== "" ? (
-					<div className={styles.error}>
-						Введенное значение должно содержать минимум 3 символа
-					</div>
-				) : (
-					error
-				)}
+				{error && <div className={styles.error}>{error}</div>}
 				<div className={styles["buttons-container"]}>
 					<button
 						className={styles.button}
@@ -53,7 +48,7 @@ function App() {
 					</button>
 					<button
 						className={styles.button}
-						disabled={!isValueVaild}
+						disabled={error}
 						onClick={onAddButtonClick}
 					>
 						Добавить в список
