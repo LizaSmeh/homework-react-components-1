@@ -20,12 +20,14 @@ function App() {
 	};
 
 	const onAddButtonClick = () => {
-		if (isValueVaild) {
-			list.push(value);
+		if (!isValueVaild) {
+			//list.push(value);
 			setValue("");
 			setError("");
 			const updatedList = [...list, { id: Date.now(), value }];
 			setList(updatedList);
+		} else {
+			setError('Введенное значение должно содержать минимум 3 символа');
 		}
 	};
 
